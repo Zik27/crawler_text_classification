@@ -109,8 +109,6 @@ class ONLPClassfy {
             }
             text = nextRecord[2].replace("\n", "").replaceAll("[^А-Яа-я ]", "").toLowerCase();
             text = delete_stopwords(text, stopwords);
-            //System.out.println(nextRecord[3]);
-            //System.out.println(text);
             writer.append(nextRecord[3].replace(" ", "_")).append(" ");
             writer.append(text);
             if (!text.substring(0, text.length() - 1).equals("\n"))
@@ -131,21 +129,16 @@ class ONLPClassfy {
         TrainingParameters params = TrainingParameters.defaultParams();
         DoccatFactory factory = new DoccatFactory();
         try {
-            // Read training data file - Позволяет многократно считывать поток для определенных типов построения модели.
             InputStreamFactory isf = new MarkableFileInputStreamFactory(file_model);
             // Read each training instance (Reads a plain text file and return each line as a String object.)
             ObjectStream<String> lineStream = new PlainTextByLineStream(isf, "UTF-8");
             ObjectStream<DocumentSample> sampleStream = new DocumentSampleStream(lineStream);
             logger.info("Start training the model...");
             logger.info("Settings: " + params.getObjectSettings());
-            // Calculate the training model
             model = DocumentCategorizerME.train("ru", sampleStream, params, factory);
         } catch (IOException e) {
             logger.error("IOException when training the model", e);
         }
-  /*
-   * Now we are writing the calculated model to a file
-   */
         logger.info("Saving model to the file...");
         try {
             onlpModelOutput = new BufferedOutputStream(new FileOutputStream(onlpModelPath));
