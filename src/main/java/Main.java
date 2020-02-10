@@ -10,15 +10,6 @@ public class Main {
     private final static Logger logger = Logger.getLogger(Main.class);
 
     public static void main(String[] args) {
-//        Classification test = new Classification();
-//        test.start();
-
-//        ParagraphVectorsClassifier t = new ParagraphVectorsClassifier();
-//        try {
-//            t.main();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         Scanner in = new Scanner(System.in);
         System.out.println("Enter:\n1 - Start the process of downloading documents from the site.\n" +
                 "2 - Start the process of classification of documents.");
