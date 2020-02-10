@@ -47,11 +47,7 @@ public class CallableDownload implements Callable<String> {
             logger.error("UnknownHostException", e);
             status = 0;
         }
-        //System.out.println(article_json);
-        /*
-        ** API-интерфейс prepareIndex добавляет (или обновляет) документ к индексу.
-        ** Если ранее был не создан индекс и тип, ElasticSearch создаст его на лету с параметрами по умолчанию.
-        */
+
         IndexResponse response = status == 0 ? null : client.prepareIndex("myapp", "lenta")
                 .setSource(article_json, XContentType.JSON)
                 .get();
@@ -90,7 +86,6 @@ public class CallableDownload implements Callable<String> {
             logger.error("Serialization error", e);
             status = 0;
         }
-        //System.out.println(Thread.currentThread().getName());
         return (status == 0 ? url : send_to_es(serialized));
     }
 
@@ -112,7 +107,6 @@ public class CallableDownload implements Callable<String> {
             logger.error("Connection#1 Error: IOException", e);
         }
         int statusCode = response == null ? -1 : response.getStatusLine().getStatusCode();
-        //5xx: Server Error:
         // 503 Service Unavailable; 504 Gateway Timeout; 522 Connection Timed Out; 524 A Timeout Occurred;
         if (statusCode == 503 || statusCode == 504 || statusCode == 522 || statusCode == 524)
         {
